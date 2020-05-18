@@ -4,6 +4,7 @@ services:
     app:
         build: .
         container_name: app
+        entrypoint: dockerize -wait tcp://db:3306 -timeout 120s ./.docker/entrypoint.sh
         volumes:
             - .:/var/www
         networks: 
@@ -34,6 +35,8 @@ services:
         tty: true
         ports: 
             - "3306:3306"
+        volumes:
+            - /home/phmelo/dev/mysql/app:/var/lib/mysql
         environment: 
             - MYSQL_DATABASE=laravel
             - MYSQL_ROOT_PASSWORD=root
